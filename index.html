@@ -1,0 +1,328 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#030814">
+<title>MW APP MUSIC</title>
+<style>
+:root{--bg:#030814;--panel:#071426;--blue:#087cff;--cyan:#28caff;--line:#14345a;--muted:#8da5c5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:#f5f8ff;font:14px Arial,sans-serif;padding-bottom:90px}
+button,input{font:inherit}button{cursor:pointer}
+header{height:76px;display:flex;align-items:center;gap:24px;padding:12px 22px;background:#050c19;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:10}
+.logo{font-size:23px;font-weight:900;white-space:nowrap}.logo span{color:var(--blue)}
+.logo small{display:block;color:var(--cyan);font-size:8px;letter-spacing:2px;margin-top:4px}
+.searchtop{display:flex;flex:1;max-width:650px;margin:auto;border:1px solid #17558e;background:#0a1b33;border-radius:28px;padding:4px 5px 4px 15px}
+.searchtop input{flex:1;min-width:0;border:0;outline:0;background:transparent;color:white;padding:10px}
+.searchtop button,.primary{background:var(--blue);border:0;color:white;border-radius:25px;padding:11px 18px;font-weight:bold}
+.login{background:#102440;border:1px solid var(--line);border-radius:25px;color:white;padding:10px 15px}
+.layout{display:grid;grid-template-columns:205px minmax(0,1fr) 265px;gap:17px;max-width:1800px;margin:auto;padding:18px}
+aside{min-width:0}.sideinner{position:sticky;top:92px}
+.nav{display:block;width:100%;border:0;background:transparent;color:#c3d2e8;text-align:left;padding:12px;border-radius:9px;margin:3px 0}
+.nav:hover,.nav.active{background:linear-gradient(90deg,#086be0,#10488a);color:white}
+.label{font-size:10px;color:var(--muted);letter-spacing:1.3px;margin:22px 10px 7px}
+.genre{padding:9px 11px;font-size:12px}
+main{min-width:0}
+.hero{position:relative;overflow:hidden;border-radius:18px;min-height:285px;padding:28px;background:radial-gradient(ellipse at 80% 25%,#0589ff80,transparent 40%),linear-gradient(115deg,#102a51,#07162b 75%);border:1px solid #123e6e}
+.hero:after{content:"♫";position:absolute;right:22px;top:0;font-size:180px;color:#53baff18}
+.tag{font-size:11px;letter-spacing:2px;color:var(--cyan);font-weight:bold}
+h1{font-size:clamp(30px,4vw,43px);line-height:1.08;margin:15px 0 9px}
+.hero p{max-width:420px;color:#c2d8f3;line-height:1.65;font-size:13px}
+.hero button{position:relative;z-index:1}
+.sectionhead{display:flex;justify-content:space-between;align-items:center;gap:8px;margin:25px 0 13px}
+.sectionhead h2{font-size:18px;margin:0}
+.link{border:0;background:transparent;color:var(--cyan);font-size:12px}
+.chips{display:flex;gap:7px;flex-wrap:wrap;margin:14px 0}
+.chip{border:1px solid #1b3d65;background:#0a1930;color:#d6e6ff;border-radius:25px;padding:8px 11px;font-size:11px}
+.features{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:22px 0}
+.feature{border:1px solid #154576;border-radius:12px;padding:14px 5px;text-align:center;background:linear-gradient(145deg,#0c2442,#071224);cursor:pointer}
+.feature span{font-size:25px}.feature b{display:block;margin:8px 0 5px;font-size:12px}.feature small{font-size:10px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px}
+.card{min-width:0;padding:7px;border:1px solid transparent;border-radius:12px}
+.card:hover{background:#09172a;border-color:#153655}
+.cover{aspect-ratio:1;width:100%;position:relative;overflow:hidden;border-radius:9px;background:linear-gradient(135deg,#12335b,#061021);cursor:pointer}
+.cover img{width:100%;height:100%;object-fit:cover}
+.playcover{position:absolute;right:7px;bottom:7px;border:0;background:var(--blue);color:white;width:34px;height:34px;border-radius:50%}
+.card h3{font-size:12px;line-height:1.45;margin:9px 0 5px;overflow-wrap:anywhere}
+.artist{font-size:10px;color:var(--muted);overflow-wrap:anywhere}
+.actions{display:flex;gap:5px;margin-top:8px}
+.actions button{flex:1;border:0;border-radius:7px;background:#122743;color:white;padding:7px}
+.actions button:hover{color:var(--cyan)}
+.box{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:13px;margin-bottom:13px}
+.box h3{font-size:14px;margin:0 0 14px}
+.nowcover{width:100%;aspect-ratio:16/10;object-fit:cover;background:#102542;border-radius:9px}
+.nowtitle{font-size:13px;font-weight:bold;line-height:1.5;margin-top:11px}
+.muted{font-size:11px;color:var(--muted);margin-top:5px;line-height:1.5}
+.controls{display:flex;align-items:center;justify-content:center;gap:7px;margin:12px 0}
+.controls button{border:0;background:#132b49;color:white;border-radius:8px;padding:9px}
+.controls .play{border-radius:50%;width:42px;height:42px;background:var(--blue);font-size:17px}
+.queueitem{display:flex;align-items:center;gap:9px;margin:12px 0}
+.queueitem img{width:49px;height:42px;object-fit:cover;border-radius:7px;background:#122945}
+.queueitem div{flex:1;min-width:0}
+.queueitem b{display:block;font-size:11px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.queueitem small{display:block;font-size:10px;color:var(--muted);margin-top:4px}
+.queueitem button{border:0;background:transparent;color:var(--cyan)}
+.playerbox{display:none;margin:18px 0;padding:12px;background:#071426;border:1px solid #164b7c;border-radius:14px}
+.playerbox iframe{width:100%;aspect-ratio:16/9;border:0;border-radius:8px}
+.playerhead{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.playerhead h3{font-size:14px}
+.playerhead button{background:#152945;color:white;border:0;border-radius:8px;padding:8px}
+.status{font-size:11px;color:var(--muted);line-height:1.6;margin:12px 0}
+.empty{background:var(--panel);border-radius:12px;padding:22px;color:var(--muted);line-height:1.7}
+.ad{margin-top:24px;padding:18px;border:1px dashed #254363;border-radius:12px;text-align:center;color:#8299b8;font-size:11px;line-height:1.8}
+.bottom{position:fixed;z-index:20;bottom:0;left:0;right:0;min-height:76px;display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;align-items:center;background:#07101f;border-top:1px solid #18385e;padding:9px 20px}
+.bottomsong{display:flex;align-items:center;gap:10px;min-width:0}
+.bottomsong img{width:45px;height:45px;object-fit:cover;border-radius:7px;background:#123}
+.bottomsong div{min-width:0}
+.bottomsong b,.bottomsong small{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:230px}
+.bottomsong b{font-size:12px}.bottomsong small{font-size:10px;color:var(--muted);margin-top:4px}
+.bottomcontrols{text-align:center}
+.bottomcontrols button{border:0;background:transparent;color:white;padding:8px;font-size:17px}
+.bottomcontrols .play{background:var(--blue);border-radius:50%;width:38px;height:38px}
+.bottomright{text-align:right;color:var(--cyan);font-size:11px}
+footer{text-align:center;color:#6e83a2;font-size:10px;padding:24px}
+@media(max-width:1200px){.layout{grid-template-columns:175px minmax(0,1fr)}.rightcol{display:none}.grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:700px){
+ header{height:auto;min-height:65px;padding:10px;gap:9px;flex-wrap:wrap}
+ .logo{font-size:18px}.logo small{display:none}.login{padding:8px;font-size:11px}
+ .searchtop{order:3;flex-basis:100%;max-width:none}
+ .layout{display:block;padding:10px}
+ .sideinner{position:static;margin-bottom:12px}
+ .navwrap{display:flex;overflow-x:auto;gap:3px}
+ .nav{width:auto;white-space:nowrap;padding:10px;font-size:11px}
+ .label,.genres,.sidepromo{display:none}
+ .hero{padding:22px;min-height:250px}
+ .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .features{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .bottom{grid-template-columns:1fr auto;padding:8px 10px}
+ .bottomcontrols{grid-column:1/-1;grid-row:2}
+ .bottomright{display:none}
+ body{padding-bottom:125px}
+}
+</style>
+</head>
+<body>
+<header>
+ <div class="logo">🎧 MW <span>APP MUSIC</span><small>SUA MÚSICA, SEU UNIVERSO</small></div>
+ <form class="searchtop" id="searchForm">
+  <span>⌕</span><input id="query" placeholder="Pesquise músicas, artistas, álbuns ou videoclipes..." required>
+  <button>Buscar</button>
+ </form>
+ <button class="login" id="login">Entrar</button>
+</header>
+
+<div class="layout">
+<aside>
+ <div class="sideinner">
+  <div class="navwrap">
+   <button class="nav active" data-page="home">⌂ Início</button>
+   <button class="nav" data-page="search">⌕ Pesquisar</button>
+   <button class="nav" data-page="explore">✧ Explorar</button>
+   <button class="nav" data-page="playlist">☷ Minhas playlists</button>
+   <button class="nav" data-page="favorites">♥ Favoritos</button>
+   <button class="nav" data-page="history">◷ Histórico</button>
+  </div>
+  <div class="label">GÊNEROS MUSICAIS</div>
+  <div class="genres">
+   <button class="nav genre" data-q="pop music hits">▦ Pop</button>
+   <button class="nav genre" data-q="rock music">♫ Rock</button>
+   <button class="nav genre" data-q="hip hop rap music">♬ Hip Hop / Rap</button>
+   <button class="nav genre" data-q="electronic dance music">◉ Eletrônica</button>
+   <button class="nav genre" data-q="sertanejo brasileiro">♫ Sertanejo</button>
+   <button class="nav genre" data-q="MPB música brasileira">♪ MPB</button>
+   <button class="nav genre" data-q="forró brasileiro">♫ Forró</button>
+   <button class="nav genre" data-q="música gospel brasileira">✧ Gospel</button>
+   <button class="nav genre" data-q="funk brasileiro">♫ Funk</button>
+   <button class="nav genre" data-q="reggae music">♫ Reggae</button>
+   <button class="nav genre" data-q="K-pop music">♫ K-Pop</button>
+  </div>
+  <div class="ad sidepromo">♛<br><b>MW APP MUSIC</b><p>Mais músicas, mais vídeos, mais emoções!</p></div>
+ </div>
+</aside>
+
+<main>
+ <section class="hero">
+  <div class="tag">MW APP MUSIC</div>
+  <h1>A trilha sonora<br>do seu dia!</h1>
+  <p>Milhões de músicas e videoclipes para descobrir. Pesquise seu artista favorito e encontre seu próximo som.</p>
+  <button class="primary" onclick="document.getElementById('query').focus()">♫ Explorar agora</button>
+ </section>
+
+ <div class="sectionhead"><h2>Descubra o seu som</h2></div>
+ <div class="features">
+  <div class="feature" data-q="músicas populares Brasil"><span>🎵</span><b>Músicas</b><small>Descubra novos sons</small></div>
+  <div class="feature" data-q="videoclipes oficiais"><span>▶️</span><b>Videoclipes</b><small>Assista aos vídeos</small></div>
+  <div class="feature" data-page="playlist"><span>☷</span><b>Playlists</b><small>Todos os seus gostos</small></div>
+  <div class="feature" data-page="favorites"><span>💙</span><b>Favoritos</b><small>Salve o que você ama</small></div>
+ </div>
+
+ <div class="sectionhead"><h2 id="heading">🔥 Em alta para descobrir</h2><button class="link" id="more">Ver mais →</button></div>
+ <div class="chips">
+  <button class="chip" data-q="Gusttavo Lima músicas">Gusttavo Lima</button>
+  <button class="chip" data-q="Ana Castela músicas">Ana Castela</button>
+  <button class="chip" data-q="Veigh músicas">Veigh</button>
+  <button class="chip" data-q="Taylor Swift songs">Taylor Swift</button>
+  <button class="chip" data-q="Henrique e Juliano">Henrique & Juliano</button>
+  <button class="chip" data-q="música gospel brasileira">Música Gospel</button>
+ </div>
+ <div id="results" class="grid"></div>
+
+ <div class="sectionhead"><h2>🎼 Playlists em destaque</h2></div>
+ <div class="chips">
+  <button class="chip" data-q="sertanejo universitário">🤠 Sertanejo</button>
+  <button class="chip" data-q="música brasileira">🇧🇷 Top Brasil</button>
+  <button class="chip" data-q="hip hop rap">🎤 Hip Hop & Rap</button>
+  <button class="chip" data-q="música gospel">✝ Gospel</button>
+  <button class="chip" data-q="pop internacional">🌎 Pop Internacional</button>
+ </div>
+
+ <div id="playerBox" class="playerbox">
+  <div class="playerhead"><h3 id="playerTitle">Reproduzindo</h3><button id="close">✕ Fechar</button></div>
+  <iframe id="yt" title="Player oficial do YouTube" allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture;web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  <p class="status">O vídeo é reproduzido pelo player oficial do YouTube. Alguns vídeos podem não permitir incorporação.</p>
+ </div>
+ <div class="ad">ESPAÇO PARA ANÚNCIOS FUTUROS<br>Prepare seu MW APP MUSIC para monetização.</div>
+ <p id="status" class="status" role="status">Configure sua chave de API para pesquisar músicas.</p>
+</main>
+
+<aside class="rightcol">
+ <div class="box">
+  <h3>🎧 Tocando agora</h3>
+  <img id="nowImg" class="nowcover" alt="Capa da música">
+  <div id="nowTitle" class="nowtitle">Escolha uma música</div>
+  <div id="nowChannel" class="muted">MW APP MUSIC</div>
+  <div class="controls"><button id="prev">⏮</button><button class="play" id="rightPlay">▶</button><button id="next">⏭</button></div>
+  <p class="status">Controles completos de áudio ficam dentro do player do YouTube.</p>
+ </div>
+ <div class="box">
+  <h3>☷ Playlist atual</h3>
+  <div id="queue"><p class="status">Salve vídeos usando o botão +.</p></div>
+  <button class="primary" style="width:100%" data-page="playlist">Ver playlist</button>
+ </div>
+ <div class="box">
+  <h3>💙 Favoritos</h3>
+  <p id="favCount" class="status">Nenhum favorito ainda.</p>
+  <button class="primary" style="width:100%" data-page="favorites">Ver favoritos</button>
+ </div>
+ <div class="box">
+  <h3>MW APP MUSIC</h3>
+  <p class="muted">Sua música, seu estilo. Descubra novos artistas todos os dias.</p>
+ </div>
+</aside>
+</div>
+
+<div class="bottom">
+ <div class="bottomsong"><img id="bottomImg" alt=""><div><b id="bottomTitle">MW APP MUSIC</b><small id="bottomChannel">Escolha sua música</small></div></div>
+ <div class="bottomcontrols"><button id="bottomPrev">⏮</button><button class="play" id="bottomPlay">▶</button><button id="bottomNext">⏭</button></div>
+ <div class="bottomright">♫ MW APP MUSIC</div>
+</div>
+<footer>MW APP MUSIC · Reprodução por meio do YouTube</footer>
+
+<script>
+// 1. Ative YouTube Data API v3 no Google Cloud.
+// 2. Crie uma chave de API e coloque-a abaixo.
+// 3. Restrinja a chave ao seu domínio e à API utilizada.
+const API_KEY="COLE_SUA_CHAVE_API_AQUI";
+const $=id=>document.getElementById(id);
+const read=k=>{try{return JSON.parse(localStorage.getItem(k)||"[]")}catch{return []}};
+let favorites=read("mwFavorites"),playlist=read("mwPlaylist"),history=read("mwHistory");
+let results=[],index=-1,query="",nextToken="";
+
+function save(){
+ localStorage.setItem("mwFavorites",JSON.stringify(favorites));
+ localStorage.setItem("mwPlaylist",JSON.stringify(playlist));
+ localStorage.setItem("mwHistory",JSON.stringify(history.slice(0,100)));
+}
+function status(t){$("status").textContent=t}
+function render(items){
+ const root=$("results");root.replaceChildren();
+ if(!items.length){root.innerHTML='<div class="empty">Nenhum resultado encontrado nesta lista. Pesquise uma música ou artista.</div>';return}
+ items.forEach(v=>{
+  const c=document.createElement("article");c.className="card";
+  const cover=document.createElement("div");cover.className="cover";
+  const img=document.createElement("img");img.src=v.thumb;img.alt="Capa do vídeo";img.loading="lazy";
+  const play=document.createElement("button");play.className="playcover";play.textContent="▶";play.onclick=()=>playVideo(v);
+  cover.onclick=()=>playVideo(v);cover.append(img,play);
+  const title=document.createElement("h3");title.textContent=v.title;
+  const artist=document.createElement("div");artist.className="artist";artist.textContent=v.channel;
+  const actions=document.createElement("div");actions.className="actions";
+  const f=document.createElement("button");f.textContent=favorites.some(x=>x.id===v.id)?"♥":"♡";f.title="Favoritar";
+  f.onclick=()=>{favorites=favorites.some(x=>x.id===v.id)?favorites.filter(x=>x.id!==v.id):[v,...favorites];save();render(items);side()};
+  const a=document.createElement("button");a.textContent=playlist.some(x=>x.id===v.id)?"✓":"＋";a.title="Adicionar à playlist";
+  a.onclick=()=>{playlist=playlist.some(x=>x.id===v.id)?playlist.filter(x=>x.id!==v.id):[v,...playlist];save();render(items);queue();side()};
+  actions.append(f,a);c.append(cover,title,artist,actions);root.append(c);
+ });
+}
+async function search(q,more=false){
+ if(!API_KEY||API_KEY==="AIzaSyBiZTcc8TIFx44yCh2J0tMFW45ToridRaw){status("Para ativar a pesquisa real, configure a chave da YouTube Data API v3 no código.");return}
+ query=q;
+ if(!more){results=[];nextToken="";$("results").replaceChildren()}
+ status("Pesquisando músicas e videoclipes...");
+ $("heading").textContent='Resultados: "'+q+'"';
+ try{
+  const p=new URLSearchParams({part:"snippet",q,type:"video",videoEmbeddable:"true",maxResults:"25",safeSearch:"moderate",key:API_KEY});
+  if(more&&nextToken)p.set("pageToken",nextToken);
+  const r=await fetch("https://www.googleapis.com/youtube/v3/search?"+p);
+  const d=await r.json();
+  if(!r.ok)throw Error(d.error?.message||"Falha na pesquisa");
+  nextToken=d.nextPageToken||"";
+  const arr=(d.items||[]).filter(x=>x.id?.videoId).map(x=>({id:x.id.videoId,title:x.snippet.title,channel:x.snippet.channelTitle,thumb:x.snippet.thumbnails.high?.url||x.snippet.thumbnails.medium?.url||x.snippet.thumbnails.default?.url}));
+  results=more?[...results,...arr]:arr;
+  render(results);
+  status(arr.length?arr.length+" vídeos encontrados. Clique na capa para reproduzir.":"Nenhum vídeo encontrado. Tente outro nome.");
+ }catch(e){status("Erro de pesquisa: "+e.message+". Confira sua chave, a API e a cota de uso.")}
+}
+function playVideo(v){
+ index=results.findIndex(x=>x.id===v.id);
+ if(index<0){results=[v,...results];index=0}
+ $("playerBox").style.display="block";
+ $("playerTitle").textContent=v.title;
+ $("yt").src="https://www.youtube-nocookie.com/embed/"+encodeURIComponent(v.id)+"?autoplay=1";
+ $("nowImg").src=$("bottomImg").src=v.thumb;
+ $("nowTitle").textContent=$("bottomTitle").textContent=v.title;
+ $("nowChannel").textContent=$("bottomChannel").textContent=v.channel;
+ history=[v,...history.filter(x=>x.id!==v.id)].slice(0,100);save();
+ queue();status("Vídeo selecionado. Se a incorporação estiver habilitada, ele será reproduzido no player.");
+ $("playerBox").scrollIntoView({behavior:"smooth",block:"start"});
+}
+function side(){
+ $("favCount").textContent=favorites.length?favorites.length+" vídeo(s) nos favoritos.":"Nenhum favorito ainda.";
+}
+function queue(){
+ const root=$("queue");root.replaceChildren();
+ if(!playlist.length){root.innerHTML='<p class="status">Adicione músicas com o botão + nos resultados.</p>';return}
+ playlist.slice(0,6).forEach(v=>{
+  const row=document.createElement("div");row.className="queueitem";
+  const img=document.createElement("img");img.src=v.thumb;
+  const box=document.createElement("div"),b=document.createElement("b"),s=document.createElement("small");
+  b.textContent=v.title;s.textContent=v.channel;box.append(b,s);
+  const btn=document.createElement("button");btn.textContent="▶";btn.onclick=()=>playVideo(v);
+  row.append(img,box,btn);root.append(row);
+ });
+}
+function page(p){
+ document.querySelectorAll(".nav[data-page]").forEach(b=>b.classList.toggle("active",b.dataset.page===p));
+ if(p==="home"){if(results.length)render(results);else search("músicas populares Brasil");$("heading").textContent="🔥 Em alta para descobrir"}
+ if(p==="search")$("query").focus();
+ if(p==="explore"){if(!results.length)search("videoclipes oficiais");else render(results)}
+ if(p==="playlist"){ $("heading").textContent="☷ Minhas playlists";render(playlist)}
+ if(p==="favorites"){$("heading").textContent="♥ Favoritos";render(favorites)}
+ if(p==="history"){$("heading").textContent="◷ Histórico";render(history)}
+}
+$("searchForm").onsubmit=e=>{e.preventDefault();const q=$("query").value.trim();if(q)search(q)};
+document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{const q=b.dataset.q;$("query").value=q;page("search");search(q)});
+document.querySelectorAll("[data-page]").forEach(b=>b.onclick=()=>page(b.dataset.page));
+$("more").onclick=()=>query&&search(query,true);
+$("close").onclick=()=>{$("yt").src="";$("playerBox").style.display="none"};
+function step(n){if(!results.length){status("Pesquise uma música primeiro.");return}index=(index+n+results.length)%results.length;playVideo(results[index])}
+["prev","bottomPrev"].forEach(id=>$(id).onclick=()=>step(-1));
+["next","bottomNext"].forEach(id=>$(id).onclick=()=>step(1));
+["rightPlay","bottomPlay"].forEach(id=>$(id).onclick=()=>{if(index>=0&&results[index])playVideo(results[index]);else if(results.length)playVideo(results[0]);else status("Pesquise uma música primeiro.")});
+$("login").onclick=()=>alert("Cadastro de usuários ainda precisa de um servidor de autenticação. Neste HTML, favoritos e playlists são salvos neste navegador.");
+queue();side();render([]);
+if(API_KEY&&API_KEY!=="COLE_SUA_CHAVE_API_AQUI")search("músicas populares Brasil");
+</script>
+</body>
+</html>
